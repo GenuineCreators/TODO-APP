@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field
 
 import 'package:flutter/material.dart';
+import 'package:to_do/util/dialog_bo.dart';
 import 'package:to_do/util/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePAgeState extends State<HomePage> {
+  //text controller
+  final _controller = TextEditingController();
+
   // list of todo list
   List toDoList = [
     ["Listen to Tutorial", false],
@@ -22,6 +26,30 @@ class _HomePAgeState extends State<HomePage> {
     setState(() {
       toDoList[index][1] = value!;
     });
+  }
+
+  //save new task
+  void saveNewTask() {
+    setState(() {
+      toDoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
+  // when the add button is pressed
+
+  void createNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
   }
 
   @override
@@ -38,7 +66,7 @@ class _HomePAgeState extends State<HomePage> {
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: createNewTask,
         backgroundColor: Colors.blue,
         child: Icon(
           Icons.add,
