@@ -37,7 +37,7 @@ class _HomePAgeState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
-  // when the add button is pressed
+  // when the add button is pressed( CREATE TASK)
 
   void createNewTask() {
     showDialog(
@@ -50,6 +50,13 @@ class _HomePAgeState extends State<HomePage> {
         );
       },
     );
+  }
+
+  // DELETE TASK
+  void deleteTask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
   }
 
   @override
@@ -80,6 +87,7 @@ class _HomePAgeState extends State<HomePage> {
             taskName: toDoList[index][0],
             taskCompleted: toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
